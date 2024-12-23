@@ -1,11 +1,14 @@
 <template>
   <div v-if="configVisible" id="autodarts-tools-config" class="mx-auto w-full max-w-[1366px] p-4 pr-8 lg:pr-4">
-    <PageConfig />
+    <component :is="currentComponent" @changeComponent="changeComponent" />
   </div>
 </template>
 
 <script setup lang="ts">
-import PageConfig from "@/components/PageConfig.vue";
+import MenuConfig from "@/components/MenuConfig.vue";
+import GeneralConfig from "@/components/GeneralConfig.vue";
+import SoundConfig from "@/components/SoundConfig.vue";
+import AnimationsConfig from "@/components/AnimationsConfig.vue";
 import { waitForElement } from "@/utils";
 import { AutodartsToolsUrlStatus } from "@/utils/storage";
 
@@ -17,6 +20,18 @@ const configVisible = ref(false);
 const isConfigPage = ref(true);
 const navigationCheckInterval = ref();
 const isMobileNav = ref();
+const currentComponent = ref(MenuConfig);
+
+const components = {
+  MenuConfig,
+  GeneralConfig,
+  SoundConfig,
+  AnimationsConfig
+};
+
+const changeComponent = (componentName) => {
+  currentComponent.value = components[componentName];
+};
 
 watch(currentUrl, async (newURL, oldURL) => {
   await AutodartsToolsUrlStatus.setValue(newURL.split("#")[0]);

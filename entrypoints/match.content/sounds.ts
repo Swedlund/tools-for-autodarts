@@ -5,6 +5,8 @@ import { AutodartsToolsSoundsConfig } from "@/utils/soundsStorage";
 import { playPointsSound, playSound } from "@/utils/playSound";
 import { isCricket, isValidGameMode } from "@/utils/helpers";
 
+import { playAnimation } from "@/utils/playAnimation";
+
 export async function sounds() {
   const isCallerEnabled = (await AutodartsToolsConfig.getValue()).caller.enabled && isValidGameMode();
   const callerActive = (await AutodartsToolsCallerConfig.getValue()).caller.filter(caller => caller.isActive)[0];
@@ -78,13 +80,16 @@ export async function sounds() {
       } else if (callerServerUrl.length && isCallerEnabled) {
         playPointsSound(callerServerUrl, callerFileExt, "0");
       }
+      playAnimation("bust")
     } else {
       if (curThrowPointsName === "BULL") {
         playSound("bull", 2);
+        playAnimation("bull")
       } else if (curThrowPointsBed === "Outside") {
         const missLength = soundConfig.miss.length;
         const randomMissCount = Math.floor(Math.random() * missLength);
         playSound("miss", 2, randomMissCount);
+        playAnimation("miss")
       } else if (curThrowPointsMultiplier === 3) { // Triple
         if (!(isCricket() && curThrowPointsNumber < 15)) {
           if (curThrowPointsNumber >= 15 && soundConfig[`T${curThrowPointsNumber}`].info.length) {
@@ -116,6 +121,9 @@ export async function sounds() {
           && callerServerUrl.length
           && callerFileExt.length) {
         playPointsSound(callerServerUrl, callerFileExt, turnPoints);
+      }
+      if(turnPoints == "180") {
+        playAnimation("oneEighty");
       }
     }
   }, isBot ? 500 : 0);

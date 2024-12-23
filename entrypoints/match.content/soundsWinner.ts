@@ -3,6 +3,7 @@ import { AutodartsToolsCallerConfig } from "@/utils/callerStorage";
 import { AutodartsToolsSoundsConfig } from "@/utils/soundsStorage";
 import { playPointsSound, playSound } from "@/utils/playSound";
 import { getWinnerPlayerCard } from "@/utils/getElements";
+import { playAnimation } from "@/utils/playAnimation";
 
 export async function soundsWinner() {
   try {
@@ -14,6 +15,8 @@ export async function soundsWinner() {
 
     const callerActive = (await AutodartsToolsCallerConfig.getValue()).caller.filter(caller => caller.isActive)[0];
     const soundsConfig = await AutodartsToolsSoundsConfig.getValue();
+
+    playAnimation("winner")
 
     if (!isCallerEnabled && !isSoundsEnabled) return;
 

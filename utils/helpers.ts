@@ -7,8 +7,9 @@ export const isValidGameMode = () => isX01() || isCricket();
 export const soundEffect1 = new Audio();
 export const soundEffect2 = new Audio();
 export const soundEffect3 = new Audio();
+export const soundEffect4 = new Audio();
 
-export const soundEffectArray = [ soundEffect1, soundEffect2, soundEffect3 ];
+export const soundEffectArray = [ soundEffect1, soundEffect2, soundEffect3, soundEffect4 ];
 
 export function isiOS() {
   return [
